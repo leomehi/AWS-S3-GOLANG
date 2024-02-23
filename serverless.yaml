@@ -1,0 +1,23 @@
+service: TestingAgainS3v
+
+provider:
+  name: aws
+  runtime: go1.x
+  region: ap-south-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:CreateBucket"
+        - "s3:PutObject"
+        - "lambda:InvokeFunction"  # Permission for Lambda
+        - "execute-api:Invoke"    # Permission for API Gateway
+      Resource: "*"
+
+functions:
+  yourFunctionName:
+    handler: main
+    events:
+      - http:
+          path: /
+          method: post
+          cors: true
